@@ -16,22 +16,8 @@ data class Test(val text:String)
 fun Application.configureLoginRouting() {
     routing {
         post("/login") {
-            val receive = call.receive<LoginReceiveRemoteModel>()
-            val first = InMemoryCache.userList.first{it.email == receive.email}
-
-            if(first == null){
-                call.respond(HttpStatusCode.BadRequest, "User not found")
-            }else{
-                if (first.password == receive.password){
-                    val token = UUID.randomUUID().toString()
-                    InMemoryCache.token.add(TokenCache(email = receive.email, token = token))
-                    call.respond(LoginResponseRemote(token))
-                }else{
-                    call.respond(HttpStatusCode.BadRequest, "invalid password")
-                }
-
-            }
-
+            val loginController = LoginController(call)
+            loginController.performLogin()
         }
     }
 }
