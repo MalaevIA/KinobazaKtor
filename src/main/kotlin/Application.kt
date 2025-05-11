@@ -1,5 +1,6 @@
 package com.example
 
+import com.example.features.favorite.configureFavoritesRouting
 import com.example.features.login.configureLoginRouting
 import com.example.features.register.configureRegisterRouting
 import io.ktor.server.application.*
@@ -16,6 +17,7 @@ fun main() {
     embeddedServer(CIO, port = 8080, host = "0.0.0.0") {
         configureRegisterRouting()
         configureLoginRouting()
+        configureFavoritesRouting()
         configureSerialization()
         configureRouting()
     }.start(wait = true)
